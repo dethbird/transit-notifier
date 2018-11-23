@@ -12,7 +12,7 @@
               "id" => 1
             ]);
             return $response
-                ->withJson($data);
+                ->withJson($data[0]);
         });
     });
 ?>
