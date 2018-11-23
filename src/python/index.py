@@ -6,7 +6,7 @@ import sys
 import threading
 
 
-# from logic import lights
+from logic import lights
 from logic import trip_updates
 
 import config
@@ -18,6 +18,10 @@ if sys.version_info[0] < 3:
 def update():
     trip_update_data = {
         'database': {
+            'status': 'ok',
+            'message': 'Ok'
+        },
+        'hue_bridge': {
             'status': 'ok',
             'message': 'Ok'
         }
@@ -32,15 +36,11 @@ def update():
         trip_update_data = trip_updates.fetch_trip_update_data(
             c, trip_update_data)
         
-        # # calculate the signal info based on the stops
-        # trip_update_data = trip_updates.update_signals(trip_update_data)
+        # calculate the signal info based on the stops
+        trip_update_data = trip_updates.update_signals(trip_update_data)
 
         # # update the lights
-        # lights.update_lights_from_signals(trip_update_data['SIGNALS'])
-
-        # # print the output to stdout
-        # output = trip_updates.get_output_string(trip_update_data)
-        # print(output)
+        trip_update_data = lights.update_lights_from_signals(trip_update_data)
         
         conn.close()
     else:

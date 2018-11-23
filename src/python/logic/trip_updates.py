@@ -61,7 +61,7 @@ def fetch_trip_update_data(c, trip_update_data):
                     update_trip_stop_info(trip_update_info, 'OUTBOUND_TRIGGER', update, stop, entity['tripUpdate']['vehicle'])
                 if update['stopId'] == config.OUTBOUND_TARGET_STOP_ID:
                     update_trip_stop_info(trip_update_info, 'OUTBOUND_TARGET', update, stop, entity['tripUpdate']['vehicle'])
-    trip_update_data['trip_info'] = trip_update_info
+    trip_update_data['STOPS'] = trip_update_info['STOPS']
     return trip_update_data
 
 

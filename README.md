@@ -77,8 +77,7 @@ In startup apps, add:
 supervisord -c /home/cobblestone/Code/public-transit-notifier/supervisord.conf
 ```
 
-### VM Development
-On VM, set network adapter from NAT to Bridged
+
 
 ### Git
 ```bash
@@ -106,3 +105,19 @@ Create database, pip install, yarn stuff
 ```bash
 make env
 ```
+## Development
+### VM Development
+On VirtualBox Linux VM, set network adapter from NAT to Bridged
+
+### Phillips Hue Emulator
+requires java
+```bash
+sudo apt-get install default-jre
+```
+Download from [https://steveyo.github.io/Hue-Emulator/](https://steveyo.github.io/Hue-Emulator/)
+
+```bash
+java -jar HueEmulator-v0.8.jar
+```
+
+Browse to [http://localhost:8000/api/newdeveloper](http://localhost:8000/api/newdeveloper)
