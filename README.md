@@ -99,5 +99,10 @@ git clone git@github.com:dethbird/transit-notifier.git
 cd transit-notifier
 ```
 
+## Make
 
-
+### env
+Create database, pip install, yarn stuff
+```bash
+make env
+```
