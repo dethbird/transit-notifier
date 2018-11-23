@@ -162,8 +162,23 @@ c.executemany('INSERT INTO trips VALUES (?,?,?,?,?,?,?,?,?,?,?)', records.tolist
 c.execute('''DROP TABLE IF EXISTS app_settings''')
 c.execute('''CREATE TABLE app_settings (
     id INTEGER,
+    hue_bridge_ip STRING,
+    inbound_bulb_id INTEGER,
+    inbound_bulb_hue_active INTEGER,
+    inbound_bulb_hue_inactive INTEGER,
+    inbound_bulb_bri_active INTEGER,
+    inbound_bulb_bri_inactive INTEGER,
     route_id INTEGER)''')
-c.execute('''INSERT INTO app_settings VALUES (?,?)''', [1,1])
+c.execute('''INSERT INTO app_settings VALUES (?,?,?,?,?,?,?,?)''', [
+    1,
+    '192.168.86.56:8000',
+    1,
+    43690,
+    7200,
+    200,
+    146,
+    1
+])
 
 conn.commit()
 conn.close()
