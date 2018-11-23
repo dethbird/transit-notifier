@@ -60,14 +60,9 @@ require_once APPLICATION_PATH . 'src/php/routes/api.php';
 # index
 $app->get('/', function ($request, $response){
     $view = $this['view'];
-    $database = $this['database'];
     $templateVars = [
         'lastRequestUri' => isset($_SESSION['lastRequestUri']) ? $_SESSION['lastRequestUri'] : null
     ];
-    // $datas = $database->select("app_settings", '*', [
-    //   "id" => 1
-    // ]);
-    // var_dump($datas); die();
     return $this['view']->render(
         $response,
         'layout.html.twig',

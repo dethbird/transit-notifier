@@ -6,5 +6,13 @@
             return $response
                 ->withJson($json);
         });
+        $this->get('/settings', function($request, $response, $args){
+            $database = $this['database'];
+            $data = $database->select("app_settings", '*', [
+              "id" => 1
+            ]);
+            return $response
+                ->withJson($data);
+        });
     });
 ?>
