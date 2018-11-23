@@ -4,6 +4,14 @@ module.exports = {
     output: {
         filename: 'index.js',
         path: path.join(__dirname, '/public/js')},
+    resolve: {
+        extensions: [".js", ".json", ".css"],
+            modules: [
+                './node_modules',
+                './src/frontend',
+                './configs'
+            ]
+        },
     module:{
         rules:[{
             test: /\.js$/,

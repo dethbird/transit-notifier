@@ -1,37 +1,21 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { BrowserRouter as Router, Route, Link } from "react-router-dom";
+import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import 'primereact/resources/themes/nova-light/theme.css';
 import 'primereact/resources/primereact.min.css';
 import 'primeicons/primeicons.css';
 import { Card } from 'primereact/card';
 
-
-const Index = () => <Card>Home</Card>;
-const About = () => <Card>About</Card>;
-const Users = () => <Card>Users</Card>;
+import Settings from 'components/pages/settings';
+import Status from 'components/pages/status';
 
 const App = () => (
   <Router>
-    <div>
-      <nav>
-        <ul>
-          <li>
-            <Link to="/">Home</Link>
-          </li>
-          <li>
-            <Link to="/about/">About</Link>
-          </li>
-          <li>
-            <Link to="/users/">Users</Link>
-          </li>
-        </ul>
-      </nav>
-
-      <Route path="/" exact component={Index} />
-      <Route path="/about/" component={About} />
-      <Route path="/users/" component={Users} />
-    </div>
+      <Switch>
+        <Route exact path="/" component={ Status } />
+        <Route path="/status" component={ Status } />
+        <Route path="/settings" component={ Settings } />
+      </Switch>
   </Router>
 );
 
