@@ -22,6 +22,19 @@ sudo apt-get install -y python3-pip
 sudo apt-get install git-core
 sudo apt-get install apache2
 sudo apt-get install supervisor
+
+```
+
+### node
+```bash
+sudo apt-get install nodejs
+sudo apt-get install npm
+sudo npm instal -g yarn
+sudo apt-get install curl
+curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.11/install.sh | bash
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 ```
 
 ### apache
@@ -56,3 +69,6 @@ cd Code
 git clone git@github.com:dethbird/transit-notifier.git
 cd transit-notifier
 ```
+
+
+
