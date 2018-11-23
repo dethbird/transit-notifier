@@ -22,6 +22,7 @@ sudo apt-get install -y python3-pip
 sudo apt-get install git-core
 sudo apt-get install apache2
 sudo apt-get install supervisor
+sudo apt-get install vim
 
 ```
 
@@ -40,6 +41,20 @@ export NVM_DIR="$HOME/.nvm"
 ### apache
 ```bash
 service apache2 reload
+sudo vim /etc/apache2/sites-available/000-default.conf
+```
+
+```
+<VirtualHost *:80>
+
+        ServerAdmin webmaster@localhost
+        DocumentRoot /home/transit/Code/transit-notifier/public
+
+        ErrorLog ${APACHE_LOG_DIR}/error.log
+        CustomLog ${APACHE_LOG_DIR}/access.log combined
+
+</VirtualHost>
+
 ```
 
 ### Startup Apps
