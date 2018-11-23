@@ -1,41 +1,95 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <link rel="shortcut icon" href="/favicon.ico">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="theme-color" content="#000000">
-    <!--
-      manifest.json provides metadata used when your web app is added to the
-      homescreen on Android. See https://developers.google.com/web/fundamentals/web-app-manifest/
-    -->
-    <link rel="manifest" href="/manifest.json">
-    <!--
-      Notice the use of %PUBLIC_URL% in the tags above.
-      It will be replaced with the URL of the `public` folder during the build.
-      Only files inside the `public` folder can be referenced from the HTML.
+<?php
+ini_set('error_reporting', E_ALL);
+ini_set('display_errors', 1);
+ini_set('display_startup_errors',1);
+define("APPLICATION_PATH", __DIR__ . "/../");
+date_default_timezone_set('America/New_York');
+session_cache_limiter(false);
+session_start();
 
-      Unlike "/favicon.ico" or "favicon.ico", "%PUBLIC_URL%/favicon.ico" will
-      work correctly both with client-side routing and a non-root public URL.
-      Learn how to configure a non-root public URL by running `npm run build`.
-    -->
-    <title>React App</title>
-  </head>
-  <body>
-    <noscript>
-      You need to enable JavaScript to run this app.
-    </noscript>
-    <div id="root"></div>
-    <!--
-      This HTML file is a template.
-      If you open it directly in the browser, you will see an empty page.
+set_include_path(implode(PATH_SEPARATOR, array(
+    APPLICATION_PATH ,
+    APPLICATION_PATH . 'src/php/',
+    get_include_path(),
+)));
 
-      You can add webfonts, meta tags, or analytics to this file.
-      The build step will place the bundled scripts into the <body> tag.
 
-      To begin the development, run `npm start` or `yarn start`.
-      To create a production bundle, use `npm run build` or `yarn build`.
-    -->
-    <script type="text/javascript" src="/js/index.js"></script>
-  </body>
-</html>
+require '../vendor/autoload.php';
+use \Psr\Http\Message\ServerRequestInterface as Request;
+use \Psr\Http\Message\ResponseInterface as Response;
+use Guzzle\Http\Client;
+
+$app = new \Slim\App([
+    'settings' => [
+        'determineRouteBeforeAppMiddleware' => true,
+        'displayErrorDetails' => true
+    ]
+]);
+// $configs = Yaml::parse(file_get_contents("../configs/configs.yml"));
+$container = $app->getContainer();
+
+# container configs
+// $container['configs'] = $configs;
+
+# container view
+$container['view'] = function ($container) {
+    $view = new \Slim\Views\Twig(APPLICATION_PATH . 'src/views', [
+        'cache' => false
+    ]);
+
+    // Instantiate and add Slim specific extension
+    $basePath = rtrim(str_ireplace('index.php', '', $container['request']->getUri()->getBasePath()), '/');
+    $view->addExtension(new Slim\Views\TwigExtension($container['router'], $basePath));
+
+    return $view;
+};
+
+# container notFoundHandler
+$container['notFoundHandler'] = function ($c) {
+    return function ($request, $response) use ($c) {
+        $_SESSION['lastRequestUri'] = $_SERVER['REQUEST_URI'];
+        return $c['response']
+            ->withStatus(302)
+            ->withHeader('Location', '/');
+    };
+};
+
+# ActiveRecord
+// ActiveRecord\Config::initialize(function($cfg)
+// {
+//     global $configs;
+
+//     $cfg->set_model_directory(APPLICATION_PATH . '/src/php/Models');
+//     $cfg->set_connections(
+//         [
+//             'development' =>
+//                 'mysql://'.$configs['mysql']['user']
+//                 .':'.$configs['mysql']['password']
+//                 .'@'.$configs['mysql']['host'].'/'
+//                 .$configs['mysql']['database']
+//         ]
+//     );
+// });
+// ActiveRecord\Serialization::$DATETIME_FORMAT = 'Y-m-d g:i:s a';
+
+// require_once APPLICATION_PATH . 'src/routes/api.php';
+
+# index
+$app->get('/', function ($request, $response){
+    // $configs = $this['configs'];
+    $view = $this['view'];
+
+    $templateVars = [
+        // "configs" => $configs,
+        'lastRequestUri' => $_SESSION['lastRequestUri'] || null
+    ];
+
+    return $this['view']->render(
+        $response,
+        'layout.html.twig',
+        $templateVars
+    );
+
+});
+
+$app->run();
