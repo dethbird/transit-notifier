@@ -62,7 +62,7 @@ $app->get('/', function ($request, $response){
     $view = $this['view'];
     $database = $this['database'];
     $templateVars = [
-        'lastRequestUri' => $_SESSION['lastRequestUri'] || null
+        'lastRequestUri' => isset($_SESSION['lastRequestUri']) ? $_SESSION['lastRequestUri'] : null
     ];
     // $datas = $database->select("app_settings", '*', [
     //   "id" => 1
