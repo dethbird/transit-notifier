@@ -1,6 +1,7 @@
 # node
 /node_modules
 yarn.lock
+package-lock.json
 
 # python
 __pycache__
