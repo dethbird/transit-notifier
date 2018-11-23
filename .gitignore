@@ -16,3 +16,4 @@ env
 
 # app
 transit.db
+public/trip-updates.json
