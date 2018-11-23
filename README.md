@@ -20,6 +20,7 @@ sudo apt-get install net-tools
 # at this point you can ssh into the box
 sudo apt-get install -y python3-pip
 sudo apt-get install php
+sudo apt-get install php-sqlite3
 sudo apt-get install git-core
 sudo apt-get install apache2
 sudo apt-get install supervisor

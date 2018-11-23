@@ -17,6 +17,7 @@ set_include_path(implode(PATH_SEPARATOR, array(
 require '../vendor/autoload.php';
 use \Psr\Http\Message\ServerRequestInterface as Request;
 use \Psr\Http\Message\ResponseInterface as Response;
+use Medoo\Medoo;
 use Guzzle\Http\Client;
 
 $app = new \Slim\App([
@@ -40,29 +41,33 @@ $container['view'] = function ($container) {
     return $view;
 };
 
-# ActiveRecord
-ActiveRecord\Config::initialize(function($cfg)
-{
-    global $configs;
+$container['notFoundHandler'] = function ($c) {
+  return function ($request, $response) use ($c) {
+      $_SESSION['lastRequestUri'] = $_SERVER['REQUEST_URI'];
+      return $c['response']
+          ->withStatus(302)
+          ->withHeader('Location', '/');
+  };
+};
 
-    $cfg->set_model_directory(APPLICATION_PATH . '/src/php/Models');
-    $cfg->set_connections(
-        [
-            'sqlite' => 'sqlite://public/transit.db'
-        ]
-    );
-});
-// ActiveRecord\Serialization::$DATETIME_FORMAT = 'Y-m-d g:i:s a';
+$container['database'] = new Medoo([
+	'database_type' => 'sqlite',
+	'database_file' => APPLICATION_PATH . 'transit.db'
+]);
 
 // require_once APPLICATION_PATH . 'src/routes/api.php';
 
 # index
 $app->get('/', function ($request, $response){
     $view = $this['view'];
+    $database = $this['database'];
     $templateVars = [
         'lastRequestUri' => $_SESSION['lastRequestUri'] || null
     ];
-
+    // $datas = $database->select("app_settings", '*', [
+    //   "id" => 1
+    // ]);
+    // var_dump($datas); die();
     return $this['view']->render(
         $response,
         'layout.html.twig',
