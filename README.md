@@ -56,7 +56,7 @@ sudo vim /etc/apache2/sites-available/000-default.conf
 
     <Directory />
         Options FollowSymLinks
-        AllowOverride None
+        AllowOverride All
     </Directory>
 
 

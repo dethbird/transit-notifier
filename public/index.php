@@ -25,11 +25,7 @@ $app = new \Slim\App([
         'displayErrorDetails' => true
     ]
 ]);
-// $configs = Yaml::parse(file_get_contents("../configs/configs.yml"));
 $container = $app->getContainer();
-
-# container configs
-// $container['configs'] = $configs;
 
 # container view
 $container['view'] = function ($container) {
@@ -44,43 +40,26 @@ $container['view'] = function ($container) {
     return $view;
 };
 
-# container notFoundHandler
-$container['notFoundHandler'] = function ($c) {
-    return function ($request, $response) use ($c) {
-        $_SESSION['lastRequestUri'] = $_SERVER['REQUEST_URI'];
-        return $c['response']
-            ->withStatus(302)
-            ->withHeader('Location', '/');
-    };
-};
-
 # ActiveRecord
-// ActiveRecord\Config::initialize(function($cfg)
-// {
-//     global $configs;
+ActiveRecord\Config::initialize(function($cfg)
+{
+    global $configs;
 
-//     $cfg->set_model_directory(APPLICATION_PATH . '/src/php/Models');
-//     $cfg->set_connections(
-//         [
-//             'development' =>
-//                 'mysql://'.$configs['mysql']['user']
-//                 .':'.$configs['mysql']['password']
-//                 .'@'.$configs['mysql']['host'].'/'
-//                 .$configs['mysql']['database']
-//         ]
-//     );
-// });
+    $cfg->set_model_directory(APPLICATION_PATH . '/src/php/Models');
+    $cfg->set_connections(
+        [
+            'sqlite' => 'sqlite://public/transit.db'
+        ]
+    );
+});
 // ActiveRecord\Serialization::$DATETIME_FORMAT = 'Y-m-d g:i:s a';
 
 // require_once APPLICATION_PATH . 'src/routes/api.php';
 
 # index
 $app->get('/', function ($request, $response){
-    // $configs = $this['configs'];
     $view = $this['view'];
-
     $templateVars = [
-        // "configs" => $configs,
         'lastRequestUri' => $_SESSION['lastRequestUri'] || null
     ];
 
