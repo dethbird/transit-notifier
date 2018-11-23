@@ -6,21 +6,39 @@ import { UI_STATE } from 'constants/ui-state';
 import { tripInfoGet } from 'actions/trip-info';
 
 class Status extends React.Component {
+    constructor(props) {
+        super(props);
+        this.renderContent = this.renderContent.bind(this);
+    }
     componentWillMount() {
-        const { dispatch } = this.props;
-        dispatch(tripInfoGet());
+        const { updateTripInfo } = this.props;
+        updateTripInfo();
+        setInterval(() => { updateTripInfo() }, 10000);
+    }
+    renderContent() {
+        const { model, updateTripInfo } = this.props;
+        if (!model)
+            return null;
+        return <div>{ model.database.status }</div>;
     }
     render() {
         return (
             <ExternalLayout>
-                <h1>Status</h1>
+                { this.renderContent() }
             </ExternalLayout>
         );
     }
 }
 
+function mapDispatchToProps(dispatch) {
+    return {
+        updateTripInfo: () => {
+            dispatch(tripInfoGet());
+        }
+    }
+  }
+
 const mapStateToProps = (state) => {
-    console.log(state);
     const { ui_state, errors, model } = state.tripInfoReducer;
     return {
         ui_state: ui_state ? ui_state : UI_STATE.INITIALIZING,
@@ -29,4 +47,4 @@ const mapStateToProps = (state) => {
     }
 }
 
-export default connect(mapStateToProps)(Status);
+export default connect(mapStateToProps, mapDispatchToProps)(Status);
