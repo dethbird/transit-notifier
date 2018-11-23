@@ -1,11 +1,9 @@
 Header set Access-Control-Allow-Origin "*"
+
 RewriteEngine On
 RewriteBase /
 RewriteCond %{REQUEST_FILENAME} !-f
-RewriteRule ^(.*)$ /index.php [QSA]
-
-RewriteCond %{HTTPS} !=on
-RewriteRule ^/?(.*) https://%{SERVER_NAME}/$1 [R,L]
+RewriteRule ^(.*)$ /index.php [QSA,L]
 
 AddOutputFilterByType DEFLATE text/plain
 AddOutputFilterByType DEFLATE text/html

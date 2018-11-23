@@ -55,7 +55,7 @@ $container['database'] = new Medoo([
 	'database_file' => APPLICATION_PATH . 'transit.db'
 ]);
 
-// require_once APPLICATION_PATH . 'src/routes/api.php';
+require_once APPLICATION_PATH . 'src/php/routes/api.php';
 
 # index
 $app->get('/', function ($request, $response){

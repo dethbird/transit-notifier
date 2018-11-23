@@ -44,25 +44,28 @@ export NVM_DIR="$HOME/.nvm"
 
 ### apache
 ```bash
+sudo a2enmod rewrite # enable mod rewrite
+sudo a2enmod headers # mod headers
 service apache2 reload
 sudo vim /etc/apache2/sites-available/000-default.conf
 ```
 
 ```
 <VirtualHost *:80>
+        ServerName 192.168.86.56
+        ServerAdmin webmaster@localhost
+        DocumentRoot /var/www/html
+        Alias /home/transit/Code/transit-notifier/public /var/www/html
 
-    ServerAdmin webmaster@localhost
-    DocumentRoot /var/www/html
-    Alias /home/transit/Code/transit-notifier/public /var/www/html
+        <Directory /var/www/html>
+            Options FollowSymLinks
+            AllowOverride All
+            Order allow,deny
+            Allow from all
+        </Directory>
 
-    <Directory />
-        Options FollowSymLinks
-        AllowOverride All
-    </Directory>
-
-
-    ErrorLog ${APACHE_LOG_DIR}/error.log
-    CustomLog ${APACHE_LOG_DIR}/access.log combined
+        ErrorLog ${APACHE_LOG_DIR}/error.log
+        CustomLog ${APACHE_LOG_DIR}/access.log combined
 
 </VirtualHost>
 

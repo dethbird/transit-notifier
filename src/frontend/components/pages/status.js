@@ -8,8 +8,6 @@ import { tripInfoGet } from 'actions/trip-info';
 class Status extends React.Component {
     componentWillMount() {
         const { dispatch } = this.props;
-        // console.log(dispatch);
-        // const { id } = this.props;
         dispatch(tripInfoGet());
     }
     render() {
