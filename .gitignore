@@ -8,6 +8,11 @@ __pycache__
 *.pyc
 env
 
+# php
+composer.lock
+composer.phar
+/vendor/
+
 # Microsoft Code
 .vscode
 
