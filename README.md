@@ -28,9 +28,11 @@ sudo apt-get install vim
 
 ### node
 ```bash
-sudo apt-get install nodejs
+# yarn
 sudo apt-get install npm
-sudo npm instal -g yarn
+sudo npm install -g yarn
+# other node stuff
+sudo apt-get install nodejs
 sudo apt-get install curl
 curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.11/install.sh | bash
 export NVM_DIR="$HOME/.nvm"
@@ -47,14 +49,26 @@ sudo vim /etc/apache2/sites-available/000-default.conf
 ```
 <VirtualHost *:80>
 
-        ServerAdmin webmaster@localhost
-        DocumentRoot /home/transit/Code/transit-notifier/public
+    ServerAdmin webmaster@localhost
+    DocumentRoot /var/www/html
+    Alias /home/transit/Code/transit-notifier/public /var/www/html
 
-        ErrorLog ${APACHE_LOG_DIR}/error.log
-        CustomLog ${APACHE_LOG_DIR}/access.log combined
+    <Directory />
+        Options FollowSymLinks
+        AllowOverride None
+    </Directory>
+
+
+    ErrorLog ${APACHE_LOG_DIR}/error.log
+    CustomLog ${APACHE_LOG_DIR}/access.log combined
 
 </VirtualHost>
 
+```
+
+#### Symlink the document root
+```
+sudo ln -s /home/transit/Code/transit-notifier/public /var/www/html
 ```
 
 ### Startup Apps
