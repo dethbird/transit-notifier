@@ -20,7 +20,7 @@ def update_lights_from_signals(trip_update_data):
         trip_update_data['hue_bridge']['status'] = 'error'
         trip_update_data['hue_bridge']['message'] = 'Press the link button on the Hue Bridge'
         return trip_update_data
-    
+
     b.connect()
     command1 =  {
         'transitiontime' : 30,
@@ -50,6 +50,7 @@ def update_lights_from_signals(trip_update_data):
         trip_update_data['hue_bridge']['status'] = 'error'
         trip_update_data['hue_bridge']['message'] = 'Press the link button on the Hue Bridge'
         return trip_update_data
-
+    
+    trip_update_data['hue_bridge']['details'] = b.get_api()
     return trip_update_data
 
