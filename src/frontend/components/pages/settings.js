@@ -4,7 +4,7 @@ import { Button, Container, Divider, Form, Input, Header } from 'semantic-ui-rea
 
 import ExternalLayout from 'components/layout/external-layout';
 import { UI_STATE } from 'constants/ui-state';
-import { settingsGet, settingsUpdate } from 'actions/settings';
+import { settingsGet, settingsPut, settingsUpdate } from 'actions/settings';
 import settingsPutSchema from 'validation/settings-put.json';
 import * as jsonSchema from 'utility/json-schema';
 
@@ -23,6 +23,10 @@ class Settings extends React.Component {
         updateSettings(changedFields);
         this.forceUpdate();
     }
+    handleClickSubmit() {
+        const { changedFields, putSettings } = this.props;
+        putSettings(changedFields);
+    }
     renderContent() {
         const { model, ui_state, changedFields } = this.props;
         if (!model)
@@ -34,7 +38,7 @@ class Settings extends React.Component {
                 loading={ ui_state == UI_STATE.REQUESTING ? true : undefined }
                 error={ ui_state == UI_STATE.ERROR ? true : undefined }
                 success={ ui_state == UI_STATE.SUCCESS ? true : undefined }
-                onSubmit={ ()=>{ console.log('submit!') } }
+                onSubmit={ this.handleClickSubmit.bind(this) }
             >
                 <Header as='h1'>Inbound Bulb</Header>
                 <Form.Group>
@@ -296,6 +300,7 @@ class Settings extends React.Component {
                     <Button 
                         size='massive'
                         primary
+                        type='submit'
                         disabled={ Object.keys(changedFields).length==0 }
                         loading={ ui_state == UI_STATE.REQUESTING }
                     >Save</Button>
@@ -318,6 +323,9 @@ function mapDispatchToProps(dispatch) {
     return {
         getSettings: () => {
             dispatch(settingsGet());
+        },
+        putSettings: (changedFields) => {
+            dispatch(settingsPut(changedFields));
         },
         updateSettings: (changedFields) => {
             dispatch(settingsUpdate(changedFields));

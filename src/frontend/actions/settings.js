@@ -34,6 +34,21 @@ export const settingsGet = (id) =>
         });
     };
 
+export const settingsPut = (fields) =>
+    dispatch => {
+        dispatch(settingsRequestInit());
+        console.log(fields);
+        request.put(`/api/settings`)
+            .send( { ... fields } )
+            .end(function(err, res){
+                if(res.ok) {
+                    dispatch(settingsRequestSuccess(res.body));
+                } else {
+                    dispatch(settingsRequestError(res.body));
+                }
+        });
+    };
+
 export const settingsUpdate = (changedFields) => {
     return {
         type: SETTINGS.UPDATE,

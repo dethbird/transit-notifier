@@ -17,7 +17,6 @@ set_include_path(implode(PATH_SEPARATOR, array(
 require '../vendor/autoload.php';
 use \Psr\Http\Message\ServerRequestInterface as Request;
 use \Psr\Http\Message\ResponseInterface as Response;
-use Medoo\Medoo;
 use Guzzle\Http\Client;
 
 $app = new \Slim\App([
@@ -50,10 +49,15 @@ $container['notFoundHandler'] = function ($c) {
   };
 };
 
-$container['database'] = new Medoo([
-	'database_type' => 'sqlite',
-	'database_file' => APPLICATION_PATH . 'transit.db'
-]);
+ActiveRecord\Config::initialize(function($cfg)
+{
+    $cfg->set_model_directory(APPLICATION_PATH . 'src/php/Models');
+    $cfg->set_connections(
+        [
+            'development' => 'sqlite://../transit.db'
+        ]
+    );
+});
 
 require_once APPLICATION_PATH . 'src/php/routes/api.php';
 
