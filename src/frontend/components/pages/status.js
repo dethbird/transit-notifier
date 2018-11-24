@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Card, Divider, Grid } from 'semantic-ui-react'
+import { Divider, Grid, Segment } from 'semantic-ui-react'
+import moment from 'moment';
 
 import ExternalLayout from 'components/layout/external-layout';
 import DatabaseCard from 'components/ui/cards/database-card';
@@ -26,6 +27,7 @@ class Status extends React.Component {
             return null;
         return (
             <div>
+                <Segment compact>{ moment().format("dddd, MMMM Do YYYY, h:mm:ss a") }</Segment>
                 <Grid>
                     <Grid.Column width={8}>
                         <SignalCard model={ model.SIGNALS.INBOUND } signalName='Inbound Signal'/>

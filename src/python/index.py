@@ -48,8 +48,11 @@ def update():
         trip_update_data['database']['message'] = 'Please run `python3 src/python/init.py`'
     
     # update the web version of output
+    print(trip_update_data)
+    print('--------------------')
     f = open('public/trip-updates.json', 'w')
     f.write(json.dumps(trip_update_data))
+    f.close()
     
 def main():
     threading.Timer(

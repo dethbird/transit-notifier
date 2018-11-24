@@ -3,21 +3,18 @@ import { Table } from 'semantic-ui-react'
 
 class StopTable extends React.Component {
     renderRowData(rowName, rowData) {
-        if (!rowData)
-            return null
         return (
             <Table.Row>
                 <Table.Cell>{ rowName }</Table.Cell>
-                <Table.Cell>{ rowData.STOP.stop_id }</Table.Cell>
-                <Table.Cell>{ rowData.STOP.stop_name }</Table.Cell>
-                <Table.Cell>{ rowData.TOTAL_SECONDS }</Table.Cell>
+                <Table.Cell>{ rowData ? rowData.STOP.stop_id : null }</Table.Cell>
+                <Table.Cell>{ rowData ? rowData.STOP.stop_name: null }</Table.Cell>
+                <Table.Cell>{ rowData ? rowData.TOTAL_SECONDS: null }</Table.Cell>
             </Table.Row>
         );
     }
 
     render() {
         const { model } = this.props;
-        console.log(model);
         return (
             <Table>
                 <Table.Header>
@@ -29,10 +26,16 @@ class StopTable extends React.Component {
                     </Table.Row>
                 </Table.Header>
                 <Table.Body>
-                    { this.renderRowData('Inbound Trigger', model.INBOUND_TRIGGER) }
-                    { this.renderRowData('Inbound Target', model.INBOUND_TARGET) }
-                    { this.renderRowData('Outbound Trigger', model.OUTBOUND_TRIGGER) }
-                    { this.renderRowData('Outbound Target', model.OUTBOUND_TARGET) }
+                    <Table.Row>
+                        <Table.Cell colSpan={ 4 } style={{backgroundColor: '#f9fafb'}}><h5>Inbound</h5></Table.Cell>
+                    </Table.Row>
+                    { this.renderRowData('Trigger', model.INBOUND_TRIGGER) }
+                    { this.renderRowData('Target', model.INBOUND_TARGET) }
+                    <Table.Row>
+                        <Table.Cell colSpan={ 4 } style={{backgroundColor: '#f9fafb'}}><h5>Outbound</h5></Table.Cell>
+                    </Table.Row>
+                    { this.renderRowData('Trigger', model.OUTBOUND_TRIGGER) }
+                    { this.renderRowData('Target', model.OUTBOUND_TARGET) }
                 </Table.Body>
             </Table>
         );

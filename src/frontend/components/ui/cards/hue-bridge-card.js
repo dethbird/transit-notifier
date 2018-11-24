@@ -6,6 +6,12 @@ class HueBridgeCard extends React.Component {
         const { model } = this.props;
         if (model.status !== 'ok')
             return null;
+        if (!model.details.config)
+            return (
+                <Card.Content>
+                    ERROR: { model.details[0].error.description }
+                </Card.Content>
+            );
         return (
             <Card.Content extra>
                 IP: { model.details.config.ipaddress }<br />
