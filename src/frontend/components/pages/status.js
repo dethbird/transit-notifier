@@ -14,12 +14,16 @@ import { tripInfoGet } from 'actions/trip-info';
 class Status extends React.Component {
     constructor(props) {
         super(props);
+        this.interval = undefined;
         this.renderContent = this.renderContent.bind(this);
     }
     componentWillMount() {
         const { updateTripInfo } = this.props;
         updateTripInfo();
-        setInterval(() => { updateTripInfo() }, 10000);
+        this.interval = setInterval(() => { updateTripInfo() }, 10000);
+    }
+    componentWillUnmount() {
+        clearInterval(this.interval);
     }
     renderContent() {
         const { model } = this.props;

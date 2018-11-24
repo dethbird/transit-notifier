@@ -19,7 +19,7 @@ with zipfile.ZipFile("google_transit_info.zip","r") as zip_ref:
     zip_ref.close()
 
 # read transit info text files
-conn = sqlite3.connect('transit.db')
+conn = sqlite3.connect('database/transit.db')
 c = conn.cursor()
 
 # agency
@@ -161,7 +161,7 @@ c.executemany('INSERT INTO trips VALUES (?,?,?,?,?,?,?,?,?,?,?)', records.tolist
 # settings
 c.execute('''DROP TABLE IF EXISTS app_settings''')
 c.execute('''CREATE TABLE app_settings (
-    id INTEGER,
+    id INTEGER PRIMARY KEY,
     hue_bridge_ip STRING,
     inbound_bulb_id INTEGER,
     inbound_bulb_transition_time INTEGER,

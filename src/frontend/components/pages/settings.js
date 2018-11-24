@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { Button, Container, Divider, Form, Input, Header } from 'semantic-ui-react';
 
 import ExternalLayout from 'components/layout/external-layout';
+import ErrorMessage from 'components/ui/messages/error-message';
 import { UI_STATE } from 'constants/ui-state';
 import { settingsGet, settingsPut, settingsUpdate } from 'actions/settings';
 import settingsPutSchema from 'validation/settings-put.json';
@@ -28,11 +29,10 @@ class Settings extends React.Component {
         putSettings(changedFields);
     }
     renderContent() {
-        const { model, ui_state, changedFields } = this.props;
+        const { model, ui_state, changedFields, errors } = this.props;
         if (!model)
             return null;
         const inputFields = jsonSchema.buildInputFields(model, changedFields, settingsPutSchema);
-        
         return (
             <Form
                 loading={ ui_state == UI_STATE.REQUESTING ? true : undefined }
@@ -42,14 +42,16 @@ class Settings extends React.Component {
             >
                 <Header as='h1'>Inbound Bulb</Header>
                 <Form.Group>
-                    <Form.Input 
-                        label="Bulb Id"
-                        width={ 2 }
-                        placeholder='1,2,3...' 
-                        onChange={ this.handleFieldChange.bind(this) }
-                        id='inbound_bulb_id'
-                        value={ inputFields.inbound_bulb_id || '' }
-                    />
+                    <Form.Field>
+                        <label>Bulb Id</label>
+                        <Input 
+                            placeholder='1,2,3...' 
+                            onChange={ this.handleFieldChange.bind(this) }
+                            id='inbound_bulb_id'
+                            value={ inputFields.inbound_bulb_id || '' }
+                        />
+                        <ErrorMessage message={ jsonSchema.getErrorMessageForProperty('inbound_bulb_id', errors)} />
+                    </Form.Field>
                     <Form.Field width={ 4 }>
                         <label>Color Transition Duration</label>
                         <Input 
@@ -60,6 +62,7 @@ class Settings extends React.Component {
                             id='inbound_bulb_transition_time'
                             value={ inputFields.inbound_bulb_transition_time || '' }
                         />
+                        <ErrorMessage message={ jsonSchema.getErrorMessageForProperty('inbound_bulb_transition_time', errors)} />
                     </Form.Field>
                     <Form.Field>
                         <label>Trigger Stop Seconds</label>
@@ -72,6 +75,7 @@ class Settings extends React.Component {
                             value={ inputFields.inbound_trigger_seconds || '' }
                         />
                     </Form.Field>
+                    <ErrorMessage message={ jsonSchema.getErrorMessageForProperty('inbound_trigger_seconds', errors)} />
                 </Form.Group>
                 <Header as='h3'>Active Bulb Colors</Header>
                 <Form.Group widths='equal'>
@@ -83,6 +87,7 @@ class Settings extends React.Component {
                             id='inbound_bulb_hue_active'
                             value={ inputFields.inbound_bulb_hue_active || '' }
                         />
+                        <ErrorMessage message={ jsonSchema.getErrorMessageForProperty('inbound_bulb_hue_active', errors)} />
                     </Form.Field>
                     <Form.Field>
                         <label>Saturation</label>
@@ -92,6 +97,7 @@ class Settings extends React.Component {
                             id='inbound_bulb_sat_active'
                             value={ inputFields.inbound_bulb_sat_active || '' }
                         />
+                        <ErrorMessage message={ jsonSchema.getErrorMessageForProperty('inbound_bulb_sat_active', errors)} />
                     </Form.Field>
                     <Form.Field>
                         <label>Brightness</label>
@@ -101,6 +107,7 @@ class Settings extends React.Component {
                             id='inbound_bulb_bri_active'
                             value={ inputFields.inbound_bulb_bri_active || '' }
                         />
+                        <ErrorMessage message={ jsonSchema.getErrorMessageForProperty('inbound_bulb_bri_active', errors)} />
                     </Form.Field>
                 </Form.Group>
                 <Header as='h3'>Inactive Bulb Colors</Header>
@@ -113,6 +120,7 @@ class Settings extends React.Component {
                             id='inbound_bulb_hue_inactive'
                             value={ inputFields.inbound_bulb_hue_inactive || '' }
                         />
+                        <ErrorMessage message={ jsonSchema.getErrorMessageForProperty('inbound_bulb_hue_inactive', errors)} />
                     </Form.Field>
                     <Form.Field>
                         <label>Saturation</label>
@@ -122,6 +130,7 @@ class Settings extends React.Component {
                             id='inbound_bulb_sat_inactive'
                             value={ inputFields.inbound_bulb_sat_inactive || '' }
                         />
+                        <ErrorMessage message={ jsonSchema.getErrorMessageForProperty('inbound_bulb_sat_inactive', errors)} />
                     </Form.Field>
                     <Form.Field>
                         <label>Brightness</label>
@@ -131,6 +140,7 @@ class Settings extends React.Component {
                             id='inbound_bulb_bri_inactive'
                             value={ inputFields.inbound_bulb_bri_inactive || '' }
                         />
+                        <ErrorMessage message={ jsonSchema.getErrorMessageForProperty('inbound_bulb_bri_inactive', errors)} />
                     </Form.Field>
                 </Form.Group>
 
@@ -138,14 +148,16 @@ class Settings extends React.Component {
 
                 <Header as='h1'>Outbound Bulb</Header>
                 <Form.Group>
-                    <Form.Input 
-                        label="Bulb Id"
-                        width={ 2 }
-                        placeholder='1,2,3...' 
-                        onChange={ this.handleFieldChange.bind(this) }
-                        id='bound_bulb_id'
-                        value={ inputFields.outbound_bulb_id || '' }
-                    />
+                    <Form.Field>
+                        <label>Bulb Id</label>
+                        <Input 
+                            placeholder='1,2,3...' 
+                            onChange={ this.handleFieldChange.bind(this) }
+                            id='outbound_bulb_id'
+                            value={ inputFields.outbound_bulb_id || '' }
+                        />
+                        <ErrorMessage message={ jsonSchema.getErrorMessageForProperty('outbound_bulb_id', errors)} />
+                    </Form.Field>
                     <Form.Field width={ 4 }>
                         <label>Color Transition Duration</label>
                         <Input 
@@ -156,6 +168,7 @@ class Settings extends React.Component {
                             id='outbound_bulb_transition_time'
                             value={ inputFields.outbound_bulb_transition_time || '' }
                         />
+                        <ErrorMessage message={ jsonSchema.getErrorMessageForProperty('outbound_bulb_transition_time', errors)} />
                     </Form.Field>
                     <Form.Field>
                         <label>Trigger Stop Seconds</label>
@@ -167,6 +180,7 @@ class Settings extends React.Component {
                             id='outbound_trigger_seconds'
                             value={ inputFields.outbound_trigger_seconds || '' }
                         />
+                        <ErrorMessage message={ jsonSchema.getErrorMessageForProperty('outbound_trigger_seconds', errors)} />
                     </Form.Field>
                 </Form.Group>
                 <Header as='h3'>Active Bulb Colors</Header>
@@ -179,6 +193,7 @@ class Settings extends React.Component {
                             id='outbound_bulb_hue_active'
                             value={ inputFields.outbound_bulb_hue_active || '' }
                         />
+                        <ErrorMessage message={ jsonSchema.getErrorMessageForProperty('outbound_bulb_hue_active', errors)} />
                     </Form.Field>
                     <Form.Field>
                         <label>Saturation</label>
@@ -188,6 +203,7 @@ class Settings extends React.Component {
                             id='outbound_bulb_sat_active'
                             value={ inputFields.outbound_bulb_sat_active || '' }
                         />
+                        <ErrorMessage message={ jsonSchema.getErrorMessageForProperty('outbound_bulb_sat_active', errors)} />
                     </Form.Field>
                     <Form.Field>
                         <label>Brightness</label>
@@ -197,6 +213,7 @@ class Settings extends React.Component {
                             id='outbound_bulb_bri_active'
                             value={ inputFields.outbound_bulb_bri_active || '' }
                         />
+                        <ErrorMessage message={ jsonSchema.getErrorMessageForProperty('outbound_bulb_bri_active', errors)} />
                     </Form.Field>
                 </Form.Group>
                 <Header as='h3'>Inactive Bulb Colors</Header>
@@ -209,6 +226,7 @@ class Settings extends React.Component {
                             id='outbound_bulb_hue_inactive'
                             value={ inputFields.outbound_bulb_hue_inactive || '' }
                         />
+                        <ErrorMessage message={ jsonSchema.getErrorMessageForProperty('outbound_bulb_hue_inactive', errors)} />
                     </Form.Field>
                     <Form.Field>
                         <label>Saturation</label>
@@ -218,6 +236,7 @@ class Settings extends React.Component {
                             id='outbound_bulb_sat_inactive'
                             value={ inputFields.outbound_bulb_sat_inactive || '' }
                         />
+                        <ErrorMessage message={ jsonSchema.getErrorMessageForProperty('outbound_bulb_sat_inactive', errors)} />
                     </Form.Field>
                     <Form.Field>
                         <label>Brightness</label>
@@ -227,6 +246,7 @@ class Settings extends React.Component {
                             id='outbound_bulb_bri_inactive'
                             value={ inputFields.outbound_bulb_bri_inactive || '' }
                         />
+                        <ErrorMessage message={ jsonSchema.getErrorMessageForProperty('outbound_bulb_bri_inactive', errors)} />
                     </Form.Field>
                 </Form.Group>
 
@@ -243,6 +263,7 @@ class Settings extends React.Component {
                             id='hue_bridge_ip'
                             value={ inputFields.hue_bridge_ip || '' }
                         />
+                        <ErrorMessage message={ jsonSchema.getErrorMessageForProperty('hue_bridge_ip', errors)} />
                     </Form.Field>
                 </Form.Group>
                 <Header as='h3'>Transit Info</Header>
@@ -255,6 +276,7 @@ class Settings extends React.Component {
                             id='route_id'
                             value={ inputFields.route_id || '' }
                         />
+                        <ErrorMessage message={ jsonSchema.getErrorMessageForProperty('route_id', errors)} />
                     </Form.Field>
                     <Form.Field>
                         <label>Inbound Trigger Stop ID</label>
@@ -264,6 +286,7 @@ class Settings extends React.Component {
                             id='inbound_trigger_stop_id'
                             value={ inputFields.inbound_trigger_stop_id || '' }
                         />
+                        <ErrorMessage message={ jsonSchema.getErrorMessageForProperty('inbound_trigger_stop_id', errors)} />
                     </Form.Field>
                     <Form.Field>
                         <label>Inbound Target Stop ID</label>
@@ -273,6 +296,7 @@ class Settings extends React.Component {
                             id='inbound_target_stop_id'
                             value={ inputFields.inbound_target_stop_id || '' }
                         />
+                        <ErrorMessage message={ jsonSchema.getErrorMessageForProperty('inbound_target_stop_id', errors)} />
                     </Form.Field>
                     <Form.Field>
                         <label>Outbound Trigger Stop ID</label>
@@ -282,6 +306,7 @@ class Settings extends React.Component {
                             id='outbound_trigger_stop_id'
                             value={ inputFields.outbound_trigger_stop_id || '' }
                         />
+                        <ErrorMessage message={ jsonSchema.getErrorMessageForProperty('outbound_trigger_stop_id', errors)} />
                     </Form.Field>
                     <Form.Field>
                         <label>Outbound Target Stop ID</label>
@@ -291,6 +316,7 @@ class Settings extends React.Component {
                             id='outbound_target_stop_id'
                             value={ inputFields.outbound_target_stop_id || '' }
                         />
+                        <ErrorMessage message={ jsonSchema.getErrorMessageForProperty('outbound_target_stop_id', errors)} />
                     </Form.Field>
                 </Form.Group>
 

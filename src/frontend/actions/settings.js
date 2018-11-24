@@ -37,7 +37,6 @@ export const settingsGet = (id) =>
 export const settingsPut = (fields) =>
     dispatch => {
         dispatch(settingsRequestInit());
-        console.log(fields);
         request.put(`/api/settings`)
             .send( { ... fields } )
             .end(function(err, res){

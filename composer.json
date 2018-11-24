@@ -11,6 +11,7 @@
         "slim/slim": "^3.11",
         "guzzlehttp/guzzle": "^6.3",
         "slim/twig-view": "^2.4",
-        "php-activerecord/php-activerecord": "^1.2"
+        "php-activerecord/php-activerecord": "^1.2",
+        "justinrainbow/json-schema": "^5.2"
     }
 }

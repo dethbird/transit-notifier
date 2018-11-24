@@ -26,9 +26,9 @@ def update():
             'message': 'Ok'
         }
     }
-    if os.path.isfile('transit.db'):
+    if os.path.isfile('database/transit.db'):
         # sqlite connection    
-        conn = sqlite3.connect('transit.db')
+        conn = sqlite3.connect('database/transit.db')
         conn.row_factory = sqlite3.Row
         c = conn.cursor()
 

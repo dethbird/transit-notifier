@@ -15,6 +15,8 @@ set_include_path(implode(PATH_SEPARATOR, array(
 
 
 require '../vendor/autoload.php';
+require_once APPLICATION_PATH . 'src/php/Middleware/RequestBodyValidation.php';
+require_once APPLICATION_PATH . 'src/php/Validation/Validator.php';
 use \Psr\Http\Message\ServerRequestInterface as Request;
 use \Psr\Http\Message\ResponseInterface as Response;
 use Guzzle\Http\Client;
@@ -54,7 +56,7 @@ ActiveRecord\Config::initialize(function($cfg)
     $cfg->set_model_directory(APPLICATION_PATH . 'src/php/Models');
     $cfg->set_connections(
         [
-            'development' => 'sqlite://../transit.db'
+            'development' => 'sqlite://../database/transit.db'
         ]
     );
 });

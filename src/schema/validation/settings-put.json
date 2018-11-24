@@ -1,5 +1,9 @@
 {
 	"properties": {
+		"hue_bridge_ip": {
+			"minLength": 1,
+			"type": "string"
+		},
 		"inbound_bulb_id": {
 			"minLength": 1,
 			"type": "integer"
@@ -7,6 +11,102 @@
 		"inbound_bulb_transition_time": {
 			"minLength": 1,
 			"type": "integer"
+		},
+		"inbound_bulb_hue_active": {
+			"minLength": 1,
+			"maximum": 65534,
+			"type": "integer"
+		},
+		"inbound_bulb_hue_inactive": {
+			"minLength": 1,
+			"maximum": 65534,
+			"type": "integer"
+		},
+		"inbound_bulb_bri_active": {
+			"minLength": 1,
+			"maximum": 254,
+			"type": "integer"
+		},
+		"inbound_bulb_bri_inactive": {
+			"minLength": 1,
+			"maximum": 254,
+			"type": "integer"
+		},
+		"inbound_bulb_sat_active": {
+			"minLength": 1,
+			"maximum": 254,
+			"type": "integer"
+		},
+		"inbound_bulb_sat_inactive": {
+			"minLength": 1,
+			"maximum": 254,
+			"type": "integer"
+		},
+		"outbound_bulb_id": {
+			"minLength": 1,
+			"type": "integer"
+		},
+		"outbound_bulb_transition_time": {
+			"minLength": 1,
+			"type": "integer"
+		},
+		"outbound_bulb_hue_active": {
+			"minLength": 1,
+			"maximum": 65534,
+			"type": "integer"
+		},
+		"outbound_bulb_hue_inactive": {
+			"minLength": 1,
+			"maximum": 65534,
+			"type": "integer"
+		},
+		"outbound_bulb_bri_active": {
+			"minLength": 1,
+			"maximum": 254,
+			"type": "integer"
+		},
+		"outbound_bulb_bri_inactive": {
+			"minLength": 1,
+			"maximum": 254,
+			"type": "integer"
+		},
+		"outbound_bulb_sat_active": {
+			"minLength": 1,
+			"maximum": 254,
+			"type": "integer"
+		},
+		"outbound_bulb_sat_inactive": {
+			"minLength": 1,
+			"maximum": 254,
+			"type": "integer"
+		},
+		"route_id": {
+			"minLength": 1,
+			"type": "string"
+		},
+		"inbound_trigger_seconds": {
+			"minLength": 1,
+			"type": "integer"
+		},
+		"inbound_trigger_stop_id": {
+			"minLength": 1,
+			"type": "string"
+		},
+		"inbound_target_stop_id": {
+			"minLength": 1,
+			"type": "string"
+		},
+		"outbound_trigger_seconds": {
+			"minLength": 1,
+			"type": "integer"
+		},
+		"outbound_trigger_stop_id": {
+			"minLength": 1,
+			"type": "string"
+		},
+		"outbound_target_stop_id": {
+			"minLength": 1,
+			"type": "string"
 		}
 	}
 }
