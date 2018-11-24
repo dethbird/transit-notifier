@@ -8,14 +8,14 @@ class ExternalLayout extends React.Component {
         return (
             <div>
                 <br />
-                <Container text>
+                <Container>
                     <Menu tabular>
                         <Menu.Item name='Status' active={ ['/', 'status'].indexOf(match.path) >= 0 } onClick={()=>{ history.push('/') }} />
                         <Menu.Item name='Settings' active={ match.path=='/settings' } onClick={()=>{ history.push('/settings') }} />
                     </Menu>
                 </Container>
                 <br />
-                <Container text>
+                <Container>
                     {this.props.children}
                 </Container>
             </div>);

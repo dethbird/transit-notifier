@@ -6,6 +6,7 @@ import ExternalLayout from 'components/layout/external-layout';
 import DatabaseCard from 'components/ui/cards/database-card';
 import HueBridgeCard from 'components/ui/cards/hue-bridge-card';
 import SignalCard from 'components/ui/cards/signal-card';
+import StopTable from 'components/ui/tables/stop-table';
 import { UI_STATE } from 'constants/ui-state';
 import { tripInfoGet } from 'actions/trip-info';
 
@@ -33,6 +34,8 @@ class Status extends React.Component {
                         <SignalCard model={ model.SIGNALS.OUTBOUND } signalName='Outbound Signal'/>
                     </Grid.Column>
                 </Grid>
+                <Divider />
+                    <StopTable model={ model.STOPS } />
                 <Divider />
                 <Grid>
                     <Grid.Column width={8}>
