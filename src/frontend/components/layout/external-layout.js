@@ -5,6 +5,7 @@ import { Container, Menu } from 'semantic-ui-react'
 class ExternalLayout extends React.Component {
     render() {
         const { history, match } = this.props;
+
         return (
             <div>
                 <br />

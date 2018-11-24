@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Divider, Grid, Segment } from 'semantic-ui-react'
+import { Divider, Grid, Segment } from 'semantic-ui-react';
 import moment from 'moment';
 
 import ExternalLayout from 'components/layout/external-layout';
