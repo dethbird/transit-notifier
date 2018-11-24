@@ -18,15 +18,15 @@ class HueBridgeCard extends React.Component {
     render() {
         const { model } = this.props;
         return (
-            <Card>
+            <Card fluid>
                 <Card.Content>
                     <Card.Header><Icon color={ model.status=='ok' ? 'green' : 'red' } name='hdd' /> Hue Bridge</Card.Header>
                     <Card.Meta>{model.status}</Card.Meta>
-                    <Card.Content>
+                    <Card.Description>
                         {model.message}
-                    </Card.Content>
-                    { this.renderDetails() }
+                    </Card.Description>
                 </Card.Content>
+                { this.renderDetails() }
             </Card>
         );
     }

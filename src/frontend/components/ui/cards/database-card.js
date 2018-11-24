@@ -5,7 +5,7 @@ class DatabaseCard extends React.Component {
     render() {
         const { model } = this.props;
         return (
-            <Card>
+            <Card fluid>
                 <Card.Content>
                     <Card.Header><Icon color={ model.status=='ok' ? 'green' : 'red' } name='database' /> Database</Card.Header>
                     <Card.Meta>{model.status}</Card.Meta>

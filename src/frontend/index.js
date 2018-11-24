@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import { BrowserRouter as Router, Switch, Route, browserHistory } from "react-router-dom";
 import { Provider } from "react-redux";
 
-import 'semantic-ui-css/semantic.min.css';
+// import 'semantic-ui-css/semantic.min.css';
 
 import store from "store/store";
 import Settings from 'components/pages/settings';

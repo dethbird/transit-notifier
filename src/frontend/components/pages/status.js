@@ -1,10 +1,11 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Card, Divider } from 'semantic-ui-react'
+import { Card, Divider, Grid } from 'semantic-ui-react'
 
 import ExternalLayout from 'components/layout/external-layout';
 import DatabaseCard from 'components/ui/cards/database-card';
 import HueBridgeCard from 'components/ui/cards/hue-bridge-card';
+import SignalCard from 'components/ui/cards/signal-card';
 import { UI_STATE } from 'constants/ui-state';
 import { tripInfoGet } from 'actions/trip-info';
 
@@ -24,11 +25,23 @@ class Status extends React.Component {
             return null;
         return (
             <div>
+                <Grid>
+                    <Grid.Column width={8}>
+                        <SignalCard model={ model.SIGNALS.INBOUND } signalName='Inbound Signal'/>
+                    </Grid.Column>
+                    <Grid.Column width={8}>
+                        <SignalCard model={ model.SIGNALS.OUTBOUND } signalName='Outbound Signal'/>
+                    </Grid.Column>
+                </Grid>
                 <Divider />
-                <Card.Group>
-                    <DatabaseCard model={ model.database } />
-                    <HueBridgeCard model={ model.hue_bridge } />
-                </Card.Group>
+                <Grid>
+                    <Grid.Column width={8}>
+                        <DatabaseCard model={ model.database } />
+                    </Grid.Column>
+                    <Grid.Column width={8}>
+                        <HueBridgeCard model={ model.hue_bridge } />
+                    </Grid.Column>
+                </Grid>
             </div>
         );
     }
