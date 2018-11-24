@@ -1,17 +1,4 @@
-from dotenv import load_dotenv
-from pathlib import Path
-
-import os
-
-
 UPDATE_FREQUENCY_SECONDS = 10
-
-# Route targets
-ROUTE_ID = '100'
-INBOUND_TRIGGER_STOP_ID = 'SC-13'
-INBOUND_TARGET_STOP_ID = 'SC-14'
-OUTBOUND_TRIGGER_STOP_ID = 'SC-06'
-OUTBOUND_TARGET_STOP_ID = 'SC-08'
 
 # Default trip update descriptor
 DEFAULT_TRIP_UPDATE_INFO = {

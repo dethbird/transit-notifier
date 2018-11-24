@@ -37,10 +37,10 @@ def update():
 
         # fetch relevant trip details for the stops we care about
         trip_update_data = trip_updates.fetch_trip_update_data(
-            c, trip_update_data)
+            app_settings, c, trip_update_data)
         
         # calculate the signal info based on the stops
-        trip_update_data = trip_updates.update_signals(trip_update_data)
+        trip_update_data = trip_updates.update_signals(app_settings, trip_update_data)
 
         # # update the lights
         trip_update_data = lights.update_lights_from_signals(app_settings, trip_update_data)
@@ -58,10 +58,10 @@ def update():
     f.close()
     
 def main():
-    # threading.Timer(
-    #     config.UPDATE_FREQUENCY_SECONDS,
-    #     main
-    # ).start()
+    threading.Timer(
+        config.UPDATE_FREQUENCY_SECONDS,
+        main
+    ).start()
     update()
 
 if __name__ == '__main__':

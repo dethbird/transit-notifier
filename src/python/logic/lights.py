@@ -3,11 +3,9 @@
 from phue import Bridge
 from phue import PhueRegistrationException
 
-import config
 
 def update_lights_from_signals(app_settings, trip_update_data):
     
-    import pdb; pdb.set_trace()
     signals = trip_update_data['SIGNALS']
 
     try:

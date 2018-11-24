@@ -8,7 +8,7 @@ class StopTable extends React.Component {
                 <Table.Cell>{ rowName }</Table.Cell>
                 <Table.Cell>{ rowData ? rowData.STOP.stop_id : null }</Table.Cell>
                 <Table.Cell>{ rowData ? rowData.STOP.stop_name: null }</Table.Cell>
-                <Table.Cell>{ rowData ? rowData.TOTAL_SECONDS: null }</Table.Cell>
+                <Table.Cell>{ rowData ? `${rowData.TOTAL_SECONDS.toFixed(1)} s` : null }</Table.Cell>
             </Table.Row>
         );
     }

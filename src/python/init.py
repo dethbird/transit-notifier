@@ -179,9 +179,16 @@ c.execute('''CREATE TABLE app_settings (
     outbound_bulb_bri_inactive INTEGER,
     outbound_bulb_sat_active INTEGER,
     outbound_bulb_sat_inactive INTEGER,
-    route_id INTEGER)''')
+    route_id STRING,
+    inbound_trigger_seconds INTEGER,
+    inbound_trigger_stop_id STRING,
+    inbound_target_stop_id STRING,
+    outbound_trigger_seconds INTEGER,
+    outbound_trigger_stop_id STRING,
+    outbound_target_stop_id STRING
+    )''')
 c.execute('''INSERT INTO app_settings VALUES (
-        ?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?
+        ?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?
     )
     ''', [
     1,
@@ -202,7 +209,13 @@ c.execute('''INSERT INTO app_settings VALUES (
     146,
     254,
     254,
-    100
+    '100',
+    360,
+    'SC-13',
+    'SC-14',
+    360,
+    'SC-06',
+    'SC-08'
 ])
 
 conn.commit()
