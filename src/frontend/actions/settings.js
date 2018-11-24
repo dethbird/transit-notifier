@@ -34,3 +34,9 @@ export const settingsGet = (id) =>
         });
     };
 
+export const settingsUpdate = (changedFields) => {
+    return {
+        type: SETTINGS.UPDATE,
+        changedFields
+    };
+}

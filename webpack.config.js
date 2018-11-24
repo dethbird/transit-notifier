@@ -9,7 +9,7 @@ module.exports = {
             modules: [
                 './node_modules',
                 './src/frontend',
-                './configs'
+                './src/schema'
             ]
         },
     module:{

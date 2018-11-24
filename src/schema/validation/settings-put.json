@@ -1,0 +1,12 @@
+{
+	"properties": {
+		"inbound_bulb_id": {
+			"minLength": 1,
+			"type": "integer"
+		},
+		"inbound_bulb_transition_time": {
+			"minLength": 1,
+			"type": "integer"
+		}
+	}
+}

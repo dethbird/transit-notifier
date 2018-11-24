@@ -2,10 +2,12 @@ import { SETTINGS } from 'constants/actions';
 import { UI_STATE } from 'constants/ui-state';
 
 const settingsReducer = (state = {
-        model: undefined
+        model: undefined,
+        ui_state: UI_STATE.SUCCESS,
+        errors: null,
+        changedFields: {}
     },
     action) => {
-
     switch (action.type) {
         case SETTINGS.REQUEST:
             return {
@@ -22,7 +24,13 @@ const settingsReducer = (state = {
             return {
                 ...state,
                 ui_state: UI_STATE.SUCCESS,
-                model: action.model
+                model: action.model,
+                changedFields: {}
+            }
+        case SETTINGS.UPDATE:
+            return {
+                ...state,
+                changedFields: action.changedFields
             }
         default:
             return state;
