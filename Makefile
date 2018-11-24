@@ -9,3 +9,6 @@ env: requirements.txt
 	chmod 755 public
 	chmod 644 public/.htaccess public/index.php
 	sudo chown -R www-data:www-data database # so apache can write to sqlite
+
+run: supervisord.conf
+	supervisord -c supervisord.conf
