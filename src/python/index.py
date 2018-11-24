@@ -32,6 +32,9 @@ def update():
         conn.row_factory = sqlite3.Row
         c = conn.cursor()
 
+        c.execute('SELECT * FROM app_settings WHERE id=?', (1,))
+        app_settings = c.fetchone()
+
         # fetch relevant trip details for the stops we care about
         trip_update_data = trip_updates.fetch_trip_update_data(
             c, trip_update_data)
@@ -40,7 +43,7 @@ def update():
         trip_update_data = trip_updates.update_signals(trip_update_data)
 
         # # update the lights
-        trip_update_data = lights.update_lights_from_signals(trip_update_data)
+        trip_update_data = lights.update_lights_from_signals(app_settings, trip_update_data)
         
         conn.close()
     else:
@@ -55,10 +58,10 @@ def update():
     f.close()
     
 def main():
-    threading.Timer(
-        config.UPDATE_FREQUENCY_SECONDS,
-        main
-    ).start()
+    # threading.Timer(
+    #     config.UPDATE_FREQUENCY_SECONDS,
+    #     main
+    # ).start()
     update()
 
 if __name__ == '__main__':

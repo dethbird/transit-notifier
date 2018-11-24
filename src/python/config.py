@@ -3,25 +3,6 @@ from pathlib import Path
 
 import os
 
-env_path = Path('.') / '.env'
-load_dotenv(dotenv_path=env_path)
-
-# Hue Settings
-HUE_BRIDGE_IP = os.getenv('HUE_BRIDGE_IP')
-
-# Inbound bulb settings
-INBOUND_BULB_ID = int(os.getenv('INBOUND_BULB_ID'))
-INBOUND_BULB_HUE_ACTIVE = int(os.getenv('INBOUND_BULB_HUE_ACTIVE'))
-INBOUND_BULB_HUE_INACTIVE = int(os.getenv('INBOUND_BULB_HUE_INACTIVE'))
-INBOUND_BULB_BRI_ACTIVE = int(os.getenv('INBOUND_BULB_BRI_ACTIVE'))
-INBOUND_BULB_BRI_INACTIVE = int(os.getenv('INBOUND_BULB_BRI_INACTIVE'))
-
-# Outbound bulb settings
-OUTBOUND_BULB_ID = int(os.getenv('OUTBOUND_BULB_ID'))
-OUTBOUND_BULB_HUE_ACTIVE = int(os.getenv('OUTBOUND_BULB_HUE_ACTIVE'))
-OUTBOUND_BULB_HUE_INACTIVE = int(os.getenv('OUTBOUND_BULB_HUE_INACTIVE'))
-OUTBOUND_BULB_BRI_ACTIVE = int(os.getenv('OUTBOUND_BULB_BRI_ACTIVE'))
-OUTBOUND_BULB_BRI_INACTIVE = int(os.getenv('OUTBOUND_BULB_BRI_INACTIVE'))
 
 UPDATE_FREQUENCY_SECONDS = 10
 

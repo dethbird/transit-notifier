@@ -135,36 +135,3 @@ def update_signals(trip_update_data):
 
     trip_update_data['SIGNALS'] = signals
     return trip_update_data
-
-
-def get_output_string(trip_update_data):
-    breaker = '------------------------------------\n'
-    output = breaker
-    output += 'STOPS:\n'
-    output += breaker
-    # print(trip_update_data)
-    for stop in trip_update_data['STOPS']:
-        output += '{}:\t\t'.format(stop)
-        if trip_update_data['STOPS'][stop] is not None:
-            output += '{} - {},\t{}'.format(
-                trip_update_data['STOPS'][stop]['STOP']['stop_id'],
-                trip_update_data['STOPS'][stop]['STOP']['stop_name'],
-                trip_update_data['STOPS'][stop]['TOTAL_SECONDS'])
-        output += '\n'
-    output += breaker
-    output += 'SIGNALS:\n'
-    output += breaker
-    for signal in trip_update_data['SIGNALS']:
-        output += '{}:\t\t'.format(signal)
-        output += '{} - {}'.format(
-                trip_update_data['SIGNALS'][signal]['value'],
-                trip_update_data['SIGNALS'][signal]['reason'])
-        output += '\n'
-    output += breaker
-    output += datetime.datetime.now().isoformat()
-    output += '\n'
-    output += breaker
-    output += '\n'
-
-    output += '\n'
-    return output

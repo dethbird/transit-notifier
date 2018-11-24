@@ -164,20 +164,45 @@ c.execute('''CREATE TABLE app_settings (
     id INTEGER,
     hue_bridge_ip STRING,
     inbound_bulb_id INTEGER,
+    inbound_bulb_transition_time INTEGER,
     inbound_bulb_hue_active INTEGER,
     inbound_bulb_hue_inactive INTEGER,
     inbound_bulb_bri_active INTEGER,
     inbound_bulb_bri_inactive INTEGER,
+    inbound_bulb_sat_active INTEGER,
+    inbound_bulb_sat_inactive INTEGER,
+    outbound_bulb_id INTEGER,
+    outbound_bulb_transition_time INTEGER,
+    outbound_bulb_hue_active INTEGER,
+    outbound_bulb_hue_inactive INTEGER,
+    outbound_bulb_bri_active INTEGER,
+    outbound_bulb_bri_inactive INTEGER,
+    outbound_bulb_sat_active INTEGER,
+    outbound_bulb_sat_inactive INTEGER,
     route_id INTEGER)''')
-c.execute('''INSERT INTO app_settings VALUES (?,?,?,?,?,?,?,?)''', [
+c.execute('''INSERT INTO app_settings VALUES (
+        ?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?
+    )
+    ''', [
     1,
-    '192.168.86.56:8000',
+    '127.0.1.1:8000',
     1,
+    30,
     43690,
     7200,
     200,
     146,
-    1
+    254,
+    254,
+    2,
+    30,
+    49381,
+    7200,
+    200,
+    146,
+    254,
+    254,
+    100
 ])
 
 conn.commit()

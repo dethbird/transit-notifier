@@ -5,15 +5,16 @@ from phue import PhueRegistrationException
 
 import config
 
-def update_lights_from_signals(trip_update_data):
+def update_lights_from_signals(app_settings, trip_update_data):
     
+    import pdb; pdb.set_trace()
     signals = trip_update_data['SIGNALS']
 
     try:
-        b = Bridge(config.HUE_BRIDGE_IP)
+        b = Bridge(app_settings['hue_bridge_ip'])
     except OSError:
         trip_update_data['hue_bridge']['status'] = 'error'
-        trip_update_data['hue_bridge']['message'] = 'Could not find Hue Bridge at {}'.format(config.HUE_BRIDGE_IP)
+        trip_update_data['hue_bridge']['message'] = 'Could not find Hue Bridge at {}'.format(app_settings['hue_bridge_ip'])
         return trip_update_data
         
     except PhueRegistrationException:
@@ -23,29 +24,29 @@ def update_lights_from_signals(trip_update_data):
 
     b.connect()
     command1 =  {
-        'transitiontime' : 30,
+        'transitiontime' : app_settings['inbound_bulb_transition_time'],
         'on' : True,
-        'bri' : config.INBOUND_BULB_BRI_ACTIVE if signals['INBOUND']['value']=='on' else config.INBOUND_BULB_BRI_INACTIVE,
-        'hue': config.INBOUND_BULB_HUE_ACTIVE if signals['INBOUND']['value']=='on' else config.INBOUND_BULB_HUE_INACTIVE,
-        'sat': 254
+        'bri' : app_settings['inbound_bulb_bri_active'] if signals['INBOUND']['value']=='on' else app_settings['inbound_bulb_bri_inactive'],
+        'hue': app_settings['inbound_bulb_hue_active'] if signals['INBOUND']['value']=='on' else app_settings['inbound_bulb_hue_inactive'],
+        'sat': app_settings['inbound_bulb_sat_active'] if signals['INBOUND']['value']=='on' else app_settings['inbound_bulb_sat_inactive']
     }
     try:
-        b.set_light(config.INBOUND_BULB_ID, command1)
+        b.set_light(app_settings['inbound_bulb_id'], command1)
     except:
         trip_update_data['hue_bridge']['status'] = 'error'
         trip_update_data['hue_bridge']['message'] = 'Press the link button on the Hue Bridge'
         return trip_update_data
 
     command2 =  {
-        'transitiontime' : 30,
+        'transitiontime' : app_settings['outbound_bulb_transition_time'],
         'on' : True,
-        'bri' : config.OUTBOUND_BULB_BRI_ACTIVE if signals['OUTBOUND']['value']=='on' else config.OUTBOUND_BULB_BRI_INACTIVE,
-        'hue': config.OUTBOUND_BULB_HUE_ACTIVE if signals['OUTBOUND']['value']=='on' else config.OUTBOUND_BULB_HUE_INACTIVE,
-        'sat': 254
+        'bri' : app_settings['outbound_bulb_bri_active'] if signals['OUTBOUND']['value']=='on' else app_settings['outbound_bulb_bri_inactive'],
+        'hue': app_settings['outbound_bulb_hue_active'] if signals['OUTBOUND']['value']=='on' else app_settings['outbound_bulb_hue_inactive'],
+        'sat': app_settings['outbound_bulb_sat_active'] if signals['OUTBOUND']['value']=='on' else app_settings['outbound_bulb_sat_inactive']
     }
-    b.set_light(config.OUTBOUND_BULB_ID, command2)
+
     try:
-        b.set_light(config.OUTBOUND_BULB_ID, command2)
+        b.set_light(app_settings['outbound_bulb_id'], command2)
     except:
         trip_update_data['hue_bridge']['status'] = 'error'
         trip_update_data['hue_bridge']['message'] = 'Press the link button on the Hue Bridge'
