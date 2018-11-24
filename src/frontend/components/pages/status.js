@@ -1,7 +1,10 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { Card, Divider } from 'semantic-ui-react'
 
 import ExternalLayout from 'components/layout/external-layout';
+import DatabaseCard from 'components/ui/cards/database-card';
+import HueBridgeCard from 'components/ui/cards/hue-bridge-card';
 import { UI_STATE } from 'constants/ui-state';
 import { tripInfoGet } from 'actions/trip-info';
 
@@ -16,10 +19,18 @@ class Status extends React.Component {
         setInterval(() => { updateTripInfo() }, 10000);
     }
     renderContent() {
-        const { model, updateTripInfo } = this.props;
+        const { model } = this.props;
         if (!model)
             return null;
-        return <div>{ model.database.status }</div>;
+        return (
+            <div>
+                <Divider />
+                <Card.Group>
+                    <DatabaseCard model={ model.database } />
+                    <HueBridgeCard model={ model.hue_bridge } />
+                </Card.Group>
+            </div>
+        );
     }
     render() {
         return (
