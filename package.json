@@ -18,14 +18,14 @@
   },
   "homepage": "https://github.com/dethbird/transit-notifier#readme",
   "dependencies": {
-    "primeicons": "^1.0.0",
-    "primereact": "^2.0.0-rc.1",
     "react": "^16.6.3",
     "react-dom": "^16.6.3",
     "react-redux": "^5.1.1",
     "react-router-dom": "^4.3.1",
     "redux": "^4.0.1",
     "redux-thunk": "^2.3.0",
+    "semantic-ui-css": "^2.4.1",
+    "semantic-ui-react": "^0.83.0",
     "superagent": "^4.0.0"
   },
   "devDependencies": {
