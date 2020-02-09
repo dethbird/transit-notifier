@@ -1,6 +1,6 @@
 arrow
 google
-pandas
+pandas==0.25.0
 phue
 protobuf
 psycopg2-binary

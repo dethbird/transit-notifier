@@ -1,7 +1,7 @@
 # sudo rm -rf database
 env: requirements.txt
 	pip3 install -r requirements.txt
-	mkdir database
+	mkdir database | true
 	python3 src/python/init.py
 	yarn install
 	curl -sS https://getcomposer.org/installer | php
