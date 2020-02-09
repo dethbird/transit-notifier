@@ -1,8 +1,10 @@
 # sudo rm -rf database
+.PHONY: env
 env: requirements.txt
-	pip3 install -r requirements.txt
+	rm -rf database | true
 	mkdir database | true
 	python3 src/python/init.py
+	deactivate
 	yarn install
 	curl -sS https://getcomposer.org/installer | php
 	php composer.phar install
