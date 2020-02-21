@@ -1,61 +1,163 @@
-# transit-notifier
----
+# Setup
 
-## Linux Box Setup
+## Download Raspbian Lite
+[https://www.raspberrypi.org/downloads/raspbian/](https://www.raspberrypi.org/downloads/raspbian/)
+unzip the image
 
-### Hardware/OS
-4GB RAM, 32GB HD, 64bit
-Install ubuntu ubuntu-18.10-desktop-amd64.iso
+## Partition
+Use windows partition manager to clear all partitions on SD card
 
-Minimal intstall
+## Format
+Format the SD drive
+SD Card Formatter for windows
 
-Create ubuntu user `transit`, do not require password to login
+## Etch
+Use etcher to etch raspbian lite onto the SD card
+`2020-02-13-raspbian-buster-lite.img`
 
-### Install packages
+## HDMI
+edit config.txt in the boot sector of the SD, uncomment`hdmi_safe=1`
+
+## Boot
+Boot the Raspberry Pi. login as `pi:raspberry`.
+
+## Configure
 ```bash
-sudo apt-get update
-sudo apt-get -y upgrade
-sudo apt-get install openssh-server
-sudo apt-get install net-tools
-# at this point you can ssh into the box
-sudo apt-get install -y python3-pip
-sudo apt-get install php
-sudo apt-get install php-sqlite3
-sudo apt-get install git-core
-sudo apt-get install apache2
-sudo apt-get install supervisor
-sudo apt-get install vim
+sudo raspi-config
+```
+- Network Options
+  - enable wifi
+- Interfacing Options
+  - enable ssh
+  - enable remote GPIO
+- Advanced
+  - expand filesystem
+- Update - update raspi-config
 
+## Reboot
+`sudo reboot`
+
+## SSH in
+```bash
+ssh pi@<IP_ADDRESS>
 ```
 
-### node
+## Install packages
+
 ```bash
-# yarn
-sudo apt-get install npm
-sudo npm install -g yarn
-# other node stuff
-sudo apt-get install nodejs
-sudo apt-get install curl
-curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.11/install.sh | bash
-export NVM_DIR="$HOME/.nvm"
+sudo apt update -y
+sudo apt upgrade -y
+sudo apt install -y python3-pip libpq-dev python3-venv python3-numpy libatlas-base-dev php php-sqlite3 apache2 supervisor npm git vim
+```
+
+## Setup Git
+```bash
+git config --global user.email "your_email@example.com"
+ssh-keygen -t rsa -b 4096 -C "your_email@example.com"
+eval $(ssh-agent -s)
+ssh-add ~/.ssh/id_rsa
+cat < ~/.ssh/id_rsa.pub
+# paste into github
+# https://github.com/settings/keys
+```
+
+## git complete and git prompt
+
+https://raw.githubusercontent.com/git/git/master/contrib/completion/git-completion.bash
+https://raw.githubusercontent.com/git/git/master/contrib/completion/git-prompt.sh
+
+```bash
+touch ~/.git-prompt.sh ~/.git-completion.bash
+# vim them and add the source from raw on github
+vim ~/.git-prompt.sh
+vim ~/.git-completion.bash
+```
+
+## nvm
+clone nvm
+```bash
+git clone https://github.com/nvm-sh/nvm.git
+```
+
+## .bash_profile
+```bash
+touch ~/.bash_profile
+vim ~/.bash_profile
+```
+
+```bash
+source ~/.git-prompt.sh
+source ~/.git-completion.bash
+
+export NVM_DIR="$HOME/nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+
+export GIT_PS1_SHOWDIRTYSTATE=true
+export GIT_PS1_SHOWUNTRACKEDFILES=true
+export GIT_PS1_SHOWUPSTREAM="auto"
+
+PS1='\[\033[00m\][\[\033[01;32m\]\u@\h\[\033[00m\]] \[\e[0;45m\]$(__git_ps1 "(%s)")\[\e[0m\] \[\033[44m\]\w >\[\033[00m\] '
+
+export PATH
+
+alias ls='ls -la'
+
+# Git related
+alias gs='git status'
+alias gd='git diff'
+alias gl='git log'
+```
+Source the file
+
+```bash
+source ~/.bash_profile
 ```
 
-### apache
+
+# App Setup
+
+## Clone the repo
 ```bash
-sudo a2enmod rewrite # enable mod rewrite
-sudo a2enmod headers # mod headers
-service apache2 reload
+cd ~/
+mkdir Code
+cd Code
+git clone git@github.com:dethbird/transit-notifier.git
+cd transit-notifier
+git checkout ubuntu-server-raspberry-pi
+```
+
+
+## Create python3 virtual environment
+```bash
+python3.7 -m venv env
+. env/bin/activate
+```
+
+## Build project
+in the project folder with python venv activated:
+```bash
+. env/bin/activate
+make env
+```
+
+## apache
+```bash
+sudo a2enmod rewrite
+sudo a2enmod headers
+```
+
+## edit vhost
+```bash
 sudo vim /etc/apache2/sites-available/000-default.conf
 ```
-
+put
 ```
 <VirtualHost *:80>
-        ServerName 192.168.86.56
+        ServerName raspberrypi
         ServerAdmin webmaster@localhost
         DocumentRoot /var/www/html
-        Alias /home/transit/Code/transit-notifier/public /var/www/html
+        Alias /home/pi/Code/transit-notifier/public /var/www/html
 
         <Directory /var/www/html>
             Options FollowSymLinks
@@ -66,63 +168,40 @@ sudo vim /etc/apache2/sites-available/000-default.conf
 
         ErrorLog ${APACHE_LOG_DIR}/error.log
         CustomLog ${APACHE_LOG_DIR}/access.log combined
-
 </VirtualHost>
-
 ```
-
-#### Symlink the document root
-```
-sudo ln -s /home/transit/Code/transit-notifier/public /var/www/html
-```
-
-### Startup Apps
-In startup apps, add:
+Symlink the document root
 ```bash
-supervisord -c /home/cobblestone/Code/public-transit-notifier/supervisord.conf
+sudo rm -rf /var/www/html
+sudo ln -s /home/pi/Code/transit-notifier/public /var/www/html
+systemctl restart apache2
 ```
-
-
-
-### Git
+## supervisor on startup
 ```bash
-git config --global user.email "your_email@example.com"
-ssh-keygen -t rsa -b 4096 -C "your_email@example.com"
-eval $(ssh-agent -s)
-ssh-add ~/.ssh/id_rsa
-cat < ~/.ssh/id_rsa.pub
-# paste into github https://github.com/settings/keys
+sudo touch /etc/systemd/system/supervisord.service
+sudo vim /etc/systemd/system/supervisord.service
 ```
+put:
+```
+[Unit]
+Description=Start Supervisor
 
-#### clone repo
+[Service]
+ExecStart=sudo /usr/bin/supervisord -c /home/pi/Code/transit-notifier/supervisord.conf
+
+[Install]
+WantedBy=multi-user.target
+```
+enable the service to start at startup
 ```bash
-cd ~/
-mkdir Code
-cd Code
-git clone git@github.com:dethbird/transit-notifier.git
-cd transit-notifier
+systemctl enable supervisord
 ```
 
-## Make
-
-### env
-Create database, pip install, yarn stuff
-```bash
-make env
-```
-## Development
-### VM Development
-On VirtualBox Linux VM, set network adapter from NAT to Bridged
-
-### Phillips Hue Emulator
-requires java
-```bash
-sudo apt-get install default-jre
-```
-Download from [https://steveyo.github.io/Hue-Emulator/](https://steveyo.github.io/Hue-Emulator/)
+## Reboot and confirm
 
 ```bash
-java -jar HueEmulator-v0.8.jar
+sudo reboot
 ```
 
-Browse to [http://localhost:8000/api/newdeveloper](http://localhost:8000/api/newdeveloper)
+- apache should be available at http://raspberrypi on the local network
+- supervisor should be running `transit-notifier` python index.py

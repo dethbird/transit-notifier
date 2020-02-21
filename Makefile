@@ -3,8 +3,10 @@
 env: requirements.txt
 	rm -rf database | true
 	mkdir database | true
-	python3 src/python/init.py
-	deactivate
+	pip install --upgrade pip
+	pip install -r requirements.txt
+	python src/python/init.py
+	sudo npm install -g yarn
 	yarn install
 	curl -sS https://getcomposer.org/installer | php
 	php composer.phar install
